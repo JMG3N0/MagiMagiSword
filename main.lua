@@ -22,15 +22,63 @@ function love.load()
     score = 0
     }
 
-    enemy = {
-    posX = 0,
-    posY = 0,
-    hp = 0,
-    damage = 0,
-    angle = 0,
-    direction = 1,
-    speed = 25
+    
+    enemy1 = {
+        posX = 0,
+        posY = 0,
+        hp = 0,
+        damage = 0,
+        angle = 0,
+        direction = 1,
+        speed = 25,
+        isActive = false
     }
+
+    enemy2 = {
+        posX = 0,
+        posY = 0,
+        hp = 0,
+        damage = 0,
+        angle = 0,
+        direction = 1,
+        speed = 25,
+        isActive = false
+    }
+
+    enemy3 = {
+        posX = 0,
+        posY = 0,
+        hp = 0,
+        damage = 0,
+        angle = 0,
+        direction = 1,
+        speed = 25,
+        isActive = false
+    }
+
+    enemy4 = {
+        posX = 0,
+        posY = 0,
+        hp = 0,
+        damage = 0,
+        angle = 0,
+        direction = 1,
+        speed = 25,
+        isActive = false
+    }
+
+    enemy5 = {
+        posX = 0,
+        posY = 0,
+        hp = 0,
+        damage = 0,
+        angle = 0,
+        direction = 1,
+        speed = 25,
+        isActive = false
+    }
+    
+    
     enemyBody = love.graphics.newImage("res/enemy.png")
     enemyEye = love.graphics.newImage("res/enemyEye.png")
 end
@@ -52,22 +100,40 @@ function checkToSpawn(player)
     end
 end
 
-function setEnemy(player, enemy, enemyAlive)
-    local spawnLimit = 10
+function enemyUpdate(player, enemy, dt)
+    local spawnLimit = 5
     local currentSpawnLimit = player.score + 1
 
     if (currentSpawnLimit > spawnLimit) then
         currentSpawnLimit = spawnLimit
     end
 
-    if (checkToSpawn(player) == true) then
-        if (currentSpawnLimit > enemyAlive) then
-            if (enemy.hp <= 0) then
-                enemy.posX = math.random(1, 200)
-                enemy.posY = math.random(200, 599)
-                enemy.hp = 2 * (player.score + 1)
-                enemy.damage = 1* (player.score + 1)
-            end
+    if (enemy.isActive == false) then
+        if (checkToSpawn(player) == true) then
+            
+                if (enemy.hp <= 0) then
+                    enemy.posX = math.random(1, 200)
+                    enemy.posY = math.random(200, 599)
+                    enemy.hp = 2 * (player.score + 1)
+                    enemy.damage = 1* (player.score + 1)
+                    enemy.isActive = true
+                end
+            
+        end
+    end
+
+    if (enemy.isActive == true) then
+        if (enemy.posY > player.posY) then
+            enemy.posY = enemy.posY - 1
+        end
+        if (enemy.posY < player.posY) then
+            enemy.posY = enemy.posY + 1
+        end
+        if (enemy.posX > player.posX) then
+            enemy.posX = enemy.posX - 1
+        end
+        if (enemy.posX < player.posX) then
+            enemy.posX = enemy.posX + 1
         end
     end
 
@@ -132,14 +198,10 @@ function love.update(dt)
     local enemyAlive = 0
     player = playerUpdateState(dt, player)
 
-   for i = 0, 9 do
-        if  (enemy[i].hp > 0) then
-            enemyAlive = enemyAlive + 1
-        end
-    end
-    for y = 0, 9 do 
-        setEnemy(player, enemy[y], enemyAlive)
-    end
+   if   
+    
+        setEnemy(player, enemy, enemyAlive)
+
   
 
 end
